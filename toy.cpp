@@ -37,9 +37,11 @@ void print(Node *node, int indent = 0, string eol = "\n")
     if(node->type == Text)
     {
        	cout << string(indent, ' ');
-	cout << "TextNode[\"" << ((TextNode*)node)->data << "\"]" << eol;
+	cout << "TextNode[\n";
 	indent += 2;
-   }
+       	cout << string(indent, ' ');
+	cout << "data=\"" << ((TextNode*)node)->data << "\",\n";
+    }
     else if(node->type == Elt)
     {
 	cout << string(indent, ' ');
@@ -61,12 +63,9 @@ void print(Node *node, int indent = 0, string eol = "\n")
 	cout << string(indent, ' ');
 	cout << "]\n";
     }
-    if(node->type != Text)
-    {
-	indent -= 2;
-	cout << string(indent, ' ');
-	cout << "]" << eol;
-    }
+    indent -= 2;
+    cout << string(indent, ' ');
+    cout << "]" << eol;
 }
 
 int main()
