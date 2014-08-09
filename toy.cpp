@@ -26,6 +26,9 @@ struct TextNode : public Node
     TextNode() { type = Text; }
 };
 
+// TODO Better to implement the pretty printing as a virtual method in
+// each structs.
+
 void print(Node *node, int indent = 0, string eol = "\n")
 {
     if(node == 0)
@@ -70,7 +73,6 @@ void print(Node *node, int indent = 0, string eol = "\n")
 
 int main()
 {
-    cout << "hello toy.\n";
     TextNode text1, text2;
     text1.data = "toto";
     text2.data = "titi";
