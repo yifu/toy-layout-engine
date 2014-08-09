@@ -5,10 +5,12 @@
 
 using namespace std;
 
+enum NodeType { Text, Elt };
+
 struct Node
 {
     vector<Node*> children;
-    enum { Text, Elt } type;
+    NodeType type;
 };
 
 struct EltNode : public Node
@@ -24,13 +26,60 @@ struct TextNode : public Node
     TextNode() { type = Text; }
 };
 
+void print(Node *node, int indent = 0, string eol = "\n")
+{
+    if(node == 0)
+    {
+	cout << string(indent, ' ');
+	cout << "[]" << eol;
+	return;
+    }
+    if(node->type == Text)
+    {
+       	cout << string(indent, ' ');
+	cout << "TextNode[\"" << ((TextNode*)node)->data << "\"]" << eol;
+	indent += 2;
+   }
+    else if(node->type == Elt)
+    {
+	cout << string(indent, ' ');
+	cout << "EltNode[\n";
+	indent += 2;
+	cout << string(indent, ' ');
+	cout << "tag name=" << ((EltNode*)node)->tag_name << ",\n";
+	// TODO print attr fields.
+    }
+    if(node->children.size() > 0)
+    {
+	cout << string(indent, ' ');
+	cout << "children=[\n";
+	for(size_t i = 0; i < node->children.size(); ++i)
+	{
+	    string eol = (i != node->children.size()-1)? ",\n" : "\n";
+	    print(node->children[i], indent+2, eol);
+	}
+	cout << string(indent, ' ');
+	cout << "]\n";
+    }
+    if(node->type != Text)
+    {
+	indent -= 2;
+	cout << string(indent, ' ');
+	cout << "]" << eol;
+    }
+}
+
 int main()
 {
     cout << "hello toy.\n";
     TextNode text1, text2;
     text1.data = "toto";
     text2.data = "titi";
-    EltNode elt;
-    elt.children.push_back(&text1);
-    elt.children.push_back(&text2);
+    EltNode elt1, elt2;
+    elt1.tag_name = "foobar";
+    elt2.tag_name = "foobar2";
+    elt1.children.push_back(&text1);
+    elt1.children.push_back(&text2);
+    elt1.children.push_back(&elt2);
+    print(&elt1);
 }
