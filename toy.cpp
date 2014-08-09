@@ -5,19 +5,19 @@
 
 using namespace std;
 
-class Node
+struct Node
 {
     vector<Node*> children;
     enum { Text, Elt } type;
 };
 
-class EltNode : public Node
+struct EltNode : public Node
 {
     string tag_name;
     map<string, string> attr;
 };
 
-class TextNode : public Node
+struct TextNode : public Node
 {
     string data;
 };
@@ -25,4 +25,6 @@ class TextNode : public Node
 int main()
 {
     cout << "hello toy.\n";
+    TextNode text1;
+    text1.data = "toto";
 }
