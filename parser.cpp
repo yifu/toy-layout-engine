@@ -27,9 +27,9 @@ Node* parseNode()
         node.tag_name += c;
         c = file.get();
     }
+    skipeWhiteChars();
     if(c == '>')
         return new EltNode(node);
-    skipeWhiteChars();
     // parse attributes.
     return new EltNode(node);
 }
