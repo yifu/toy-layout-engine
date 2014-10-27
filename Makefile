@@ -1,4 +1,5 @@
 
+all: test_toy parser
 
 %o: %cpp
 	$(CXX) -I./ -o $@ $<
