@@ -13,23 +13,25 @@ ifstream file("./test.html");
 
 void skipeWhiteChars()
 {
-    
+    // TODO
 }
 
 Node* parseNode()
 {
     assert(file.get() == '<');
+    EltNode node;
     // parse tag name.
-    string tag_name;
     char c = file.get();
     while(isalpha(c))
     {
-        tag_name += c;
+        node.tag_name += c;
         c = file.get();
     }
+    if(c == '>')
+        return new EltNode(node);
     skipeWhiteChars();
     // parse attributes.
-    return new EltNode;
+    return new EltNode(node);
 }
 
 int main()
