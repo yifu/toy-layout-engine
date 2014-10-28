@@ -83,6 +83,20 @@ EltNode *parseEltNode()
     return new EltNode(elt_node);
 }
 
+TextNode *parseTextNode()
+{
+    cout << "parse text node" << endl;
+    TextNode text_node;
+    char c = file.peek();
+    while(c != '<')
+    {
+        text_node.data += file.get();
+        c = file.peek();
+    }
+    cout << "data = " << text_node.data << endl;
+    return new TextNode();
+}
+
 vector<Node *> parseNodes()
 {
     vector<Node *> roots;
