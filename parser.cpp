@@ -11,6 +11,8 @@ using namespace std;
 
 ifstream file("./test.html");
 
+vector<Node *> parseNodes();
+
 void skipWS()
 {
     cout << "skip ws" << endl;
@@ -72,8 +74,10 @@ EltNode *parseEltNode()
 {
     cout << "parse elt node" << endl;
     EltNode elt_node;
-    parseTag();
+    Tag opening = parseTag();
     skipWS();
+    parseNodes();
+    Tag closing = parseTag();
     return new EltNode(elt_node);
 }
 
