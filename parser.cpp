@@ -101,8 +101,12 @@ vector<Node *> parseNodes()
 {
     vector<Node *> roots;
     while(file)
-        // TODO There might be text node as well..
-        roots.push_back(parseEltNode());
+    {
+        skipWS();
+        char c = file.peek();
+        if(c == '<') roots.push_back(parseEltNode());
+        else roots.push_back(parseTextNode());
+    }
     return roots;
 }
 
