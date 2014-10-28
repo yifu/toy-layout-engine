@@ -9,6 +9,8 @@
 
 using namespace std;
 
+int level = 0;
+
 ifstream file("./test.html");
 
 vector<Node *> parseNodes();
@@ -28,7 +30,7 @@ string getAttrName()
 {
     string name;
     char c = file.peek();
-    while(c != '>')
+    while(c != '=')
     {
         name += file.get();
         c = file.peek();
@@ -39,12 +41,16 @@ string getAttrName()
 string getAttrVal()
 {
     string val;
-    char c = file.peek();
-    while(c != '>')
+    char c = file.get();
+    assert(c == '"');
+    c = file.peek();
+    while(c != '"')
     {
         val += file.get();
         c = file.peek();
     }
+    assert(c == '"');
+    file.get();
     return val;
 }
 
@@ -56,11 +62,17 @@ struct Tag
 
 Tag parseTag()
 {
+    skipWS();
     cout << "parse tag " << endl;
     Tag tag;
-    assert(file.get() == '<');
-    // parse tag name.
     char c = file.get();
+    if(c != '<')
+        cout << "ERROR, c = " << c << endl;
+    assert(c == '<');
+    if(file.peek() == '/')
+        file.get();
+    // parse tag name.
+    c = file.get();
     while(isalnum(c))
     {
         tag.name += c;
@@ -76,11 +88,15 @@ Tag parseTag()
     {
         Attr attr;
         attr.name = getAttrName();
-        c = '=';
+        c = file.get();
         assert(c == '=');
         attr.val = getAttrVal();
         cout << "attr: name = " << attr.name << ", val = " << attr.val << endl;
+        skipWS();
+        c = file.peek();
     }
+    c = file.get();
+    assert(c == '>');
     return tag;
 }
 
@@ -89,9 +105,18 @@ EltNode *parseEltNode()
     cout << "parse elt node" << endl;
     EltNode elt_node;
     Tag opening = parseTag();
-    parseNodes();
+    elt_node.tag_name = opening.name;
+    elt_node.children = parseNodes();
     cout << "parse closing tag" << endl;
     Tag closing = parseTag();
+    if(closing.name != opening.name)
+    {
+        cout << "Tag name mismatch, " << opening.name << " and " << closing.name << endl;
+    }
+    else
+    {
+        cout << "closing tag is " << closing.name << endl;
+    }
     return new EltNode(elt_node);
 }
 
@@ -111,13 +136,33 @@ TextNode *parseTextNode()
 
 vector<Node *> parseNodes()
 {
+    ++level;
+    cout << "PARSE NODES LVL=" << level << endl;
     vector<Node *> roots;
-    while(file)
+    while(true)
     {
+        // TODO Refactor that.
         skipWS();
+        if(not file)
+            return roots;
         char c = file.peek();
-        if(c == '<') roots.push_back(parseEltNode());
-        else roots.push_back(parseTextNode());
+        if(c == '<')
+        {
+            c = file.get();
+            char next = file.peek();
+            if(next == '/')
+            {
+                file.putback(c);
+                return roots;
+            }
+            else
+            {
+                file.putback(c);
+                roots.push_back(parseEltNode());
+            }
+        }
+        else
+            roots.push_back(parseTextNode());
     }
     return roots;
 }
