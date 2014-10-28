@@ -13,16 +13,16 @@ struct Node
     NodeType type;
 };
 
-struct attr
+struct Attr
 {
-        string name;
-        string val;
+    string name;
+    string val;
 };
 
 struct EltNode : public Node
 {
     string tag_name;
-    vector<attr> attrs;
+    vector<Attr> attrs;
     EltNode() { type = Elt; }
 };
 

@@ -27,37 +27,53 @@ string getVal()
     return "val";
 }
 
-Node *parseNode()
+struct Tag
 {
+    string name;
+    vector<Attr> attrs;
+};
+
+Tag parseTag()
+{
+    cout << "parse tag " << endl;
+    Tag tag;
     assert(file.get() == '<');
-    EltNode node;
     // parse tag name.
     char c = file.get();
     while(isalpha(c))
     {
-        node.tag_name += c;
+        tag.name += c;
         c = file.get();
     }
     skipeWhiteChars();
     if(c == '>')
-        return new EltNode(node);
+        return tag;
     // parse attributes.
     while(c != '>')
     {
-        string name = getName();
+        Attr attr;
+        attr.name = getName();
         c = '=';
         assert(c == '=');
-        string val = getVal();
-        cout << "attr: name = " << name << " = " << val << endl;
+        attr.val = getVal();
+        cout << "attr: name = " << attr.name << " = " << attr.val << endl;
     }
-    return new EltNode(node);
+    return tag;
+}
+
+EltNode *parseEltNode()
+{
+    EltNode elt_node;
+    parseTag();
+    return new EltNode(elt_node);
 }
 
 vector<Node *> parseNodes()
 {
     vector<Node *> roots;
     while(file)
-        roots.push_back(parseNode());
+        // TODO There might be text node as well..
+        roots.push_back(parseEltNode());
     return roots;
 }
 
