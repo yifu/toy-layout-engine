@@ -79,7 +79,7 @@ Tag parseTag()
         c = '=';
         assert(c == '=');
         attr.val = getAttrVal();
-        cout << "attr: name = " << attr.name << " = " << attr.val << endl;
+        cout << "attr: name = " << attr.name << ", val = " << attr.val << endl;
     }
     return tag;
 }
