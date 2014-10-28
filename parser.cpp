@@ -77,7 +77,6 @@ EltNode *parseEltNode()
     cout << "parse elt node" << endl;
     EltNode elt_node;
     Tag opening = parseTag();
-    skipWS();
     parseNodes();
     cout << "parse closing tag" << endl;
     Tag closing = parseTag();
