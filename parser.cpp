@@ -26,14 +26,26 @@ void skipWS()
 
 string getAttrName()
 {
-    cout << "get attr name" << endl;
-    return "name";
+    string name;
+    char c = file.peek();
+    while(c != '>')
+    {
+        name += file.get();
+        c = file.peek();
+    }
+    return name;
 }
 
 string getAttrVal()
 {
-    cout << "get attr val" << endl;
-    return "val";
+    string val;
+    char c = file.peek();
+    while(c != '>')
+    {
+        val += file.get();
+        c = file.peek();
+    }
+    return val;
 }
 
 struct Tag
