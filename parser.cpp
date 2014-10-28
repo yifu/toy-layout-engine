@@ -11,9 +11,15 @@ using namespace std;
 
 ifstream file("./test.html");
 
-void skipeWhiteChars()
+void skipWS()
 {
-    // TODO
+    cout << "skip ws" << endl;
+    char c = file.peek();
+    while(isspace(c))
+    {
+        file.get();
+        c = file.peek();
+    }
 }
 
 string getName()
@@ -45,7 +51,7 @@ Tag parseTag()
         tag.name += c;
         c = file.get();
     }
-    skipeWhiteChars();
+    skipWS();
     if(c == '>')
         return tag;
     // parse attributes.
@@ -65,6 +71,7 @@ EltNode *parseEltNode()
 {
     EltNode elt_node;
     parseTag();
+    skipWS();
     return new EltNode(elt_node);
 }
 
