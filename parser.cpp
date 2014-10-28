@@ -106,7 +106,7 @@ TextNode *parseTextNode()
         c = file.peek();
     }
     cout << "data = " << text_node.data << endl;
-    return new TextNode();
+    return new TextNode(text_node);
 }
 
 vector<Node *> parseNodes()
