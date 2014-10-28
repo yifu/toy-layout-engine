@@ -16,7 +16,18 @@ void skipeWhiteChars()
     // TODO
 }
 
-Node* parseNode()
+string getName()
+{
+    // TODO Consume next word.
+    return "name";
+}
+
+string getVal()
+{
+    return "val";
+}
+
+Node *parseNode()
 {
     assert(file.get() == '<');
     EltNode node;
@@ -31,7 +42,23 @@ Node* parseNode()
     if(c == '>')
         return new EltNode(node);
     // parse attributes.
+    while(c != '>')
+    {
+        string name = getName();
+        c = '=';
+        assert(c == '=');
+        string val = getVal();
+        cout << "attr: name = " << name << " = " << val << endl;
+    }
     return new EltNode(node);
+}
+
+vector<Node *> parseNodes()
+{
+    vector<Node *> roots;
+    while(file)
+        roots.push_back(parseNode());
+    return roots;
 }
 
 int main()
@@ -43,11 +70,12 @@ int main()
         cout << "Not a valid node" << endl;
         exit(EXIT_FAILURE);
     }
-    Node *root = parseNode();
-    if(root == 0)
+    vector<Node *> roots = parseNodes();
+    if(roots.empty())
     {
         cout << "Issue" << endl;
         exit(EXIT_FAILURE);
     }
-    print(root);
+    for(size_t i = 0; i < roots.size(); ++i)
+        print(roots[0]);
 }
