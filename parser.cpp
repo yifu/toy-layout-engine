@@ -51,6 +51,7 @@ Tag parseTag()
         tag.name += c;
         c = file.get();
     }
+    cout << "tag name = " << tag.name << endl;
     skipWS();
     if(c == '>')
         return tag;
@@ -69,6 +70,7 @@ Tag parseTag()
 
 EltNode *parseEltNode()
 {
+    cout << "parse elt node" << endl;
     EltNode elt_node;
     parseTag();
     skipWS();
