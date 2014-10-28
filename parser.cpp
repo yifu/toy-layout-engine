@@ -24,13 +24,13 @@ void skipWS()
     }
 }
 
-string getName()
+string getAttrName()
 {
     // TODO Consume next word.
     return "name";
 }
 
-string getVal()
+string getAttrVal()
 {
     return "val";
 }
@@ -61,10 +61,10 @@ Tag parseTag()
     while(c != '>')
     {
         Attr attr;
-        attr.name = getName();
+        attr.name = getAttrName();
         c = '=';
         assert(c == '=');
-        attr.val = getVal();
+        attr.val = getAttrVal();
         cout << "attr: name = " << attr.name << " = " << attr.val << endl;
     }
     return tag;
