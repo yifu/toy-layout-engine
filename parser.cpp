@@ -40,7 +40,7 @@ Tag parseTag()
     assert(file.get() == '<');
     // parse tag name.
     char c = file.get();
-    while(isalpha(c))
+    while(isalnum(c))
     {
         tag.name += c;
         c = file.get();
