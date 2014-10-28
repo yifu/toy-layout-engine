@@ -26,12 +26,13 @@ void skipWS()
 
 string getAttrName()
 {
-    // TODO Consume next word.
+    cout << "get attr name" << endl;
     return "name";
 }
 
 string getAttrVal()
 {
+    cout << "get attr val" << endl;
     return "val";
 }
 
@@ -58,6 +59,7 @@ Tag parseTag()
     if(c == '>')
         return tag;
     // parse attributes.
+    cout << "parse attributes" << endl;
     while(c != '>')
     {
         Attr attr;
@@ -77,6 +79,7 @@ EltNode *parseEltNode()
     Tag opening = parseTag();
     skipWS();
     parseNodes();
+    cout << "parse closing tag" << endl;
     Tag closing = parseTag();
     return new EltNode(elt_node);
 }
