@@ -4,3 +4,5 @@
 /test_toy.o
 /parser
 /parser.o
+/css_parser
+/css_parser.o
